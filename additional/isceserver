@@ -1,0 +1,15 @@
+MUJDIR=`pwd`
+PRIKAZ=`echo $1 | sed 's/"/\\\\"/g'`
+server=skirit
+#update 2019
+server=oven
+if [ ! -z $2 ]; then
+ if [ $2 == "oven" ]; then server=oven; fi
+fi
+
+#server=oven
+echo "ssh -o IdentitiesOnly=yes -i ~/.ssh/key_it4s1 laz048@$server.metacentrum.cz \"$PRIKAZ\"" > tmp_it4s1_sshcmd
+#echo "ssh -o IdentitiesOnly=yes -i ~/.ssh/key_it4s1 laz048@skirit.metacentrum.cz \"$PRIKAZ\"" > tmp_it4s1_sshcmd
+#echo "ssh -o IdentitiesOnly=yes -i ~/.ssh/key_it4s1 root@147.251.253.242 \"$PRIKAZ\"" > tmp_it4s1_sshcmd
+ssh login2 "cd $MUJDIR; sh tmp_it4s1_sshcmd"
+rm tmp_it4s1_sshcmd

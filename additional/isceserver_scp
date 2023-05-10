@@ -1,0 +1,9 @@
+#!/bin/bash
+#SERVER=laz048@skirit.metacentrum.cz
+SERVER=laz048@oven.metacentrum.cz
+if [[ $1 == *SERVER* ]]; then from=$SERVER":"`echo $1 | cut -d ':' -f2`; to=$2;
+     elif [[ $2 == *SERVER* ]]; then from=$1; to=$SERVER":"`echo $2 | cut -d ':' -f2`;
+     else echo "wrong"; exit; fi
+#establishing connection due to Kerberos
+ssh -q -o IdentitiesOnly=yes -i ~/.ssh/key_it4s1 $SERVER exit
+scp -o IdentitiesOnly=yes -i ~/.ssh/key_it4s1 $from $to >/dev/null #2>/dev/null

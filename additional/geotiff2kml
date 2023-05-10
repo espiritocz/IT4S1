@@ -1,0 +1,56 @@
+#!/bin/bash
+#(c) 2009, Milan Lazecky, TU Delft
+#
+# using GDAL, ImageMagick, gawk
+
+if [ "$1" == "" ]; then 
+	echo "Usage: geotiff2kml GeoTIFFFILE (in WGS84) [NAME of map]"
+	exit
+fi
+NAME=`echo $1 | cut -d '.' -f1`
+MAPNAME="$2"
+if [ "$2" == "" ]; then 
+   MAPNAME="$NAME"
+fi
+
+#get coordinates info from GeoTIFF
+gdalinfo $1 > LZ_temp.tmp
+NORTH=`grep "Upper Left" LZ_temp.tmp | gawk {'print $5'} | sed 's/)//'`
+SOUTH=`grep "Lower Left" LZ_temp.tmp | gawk {'print $5'} | sed 's/)//'`
+EAST=`grep "Upper Right" LZ_temp.tmp | gawk {'print $4'} | sed 's/,//'`
+WEST=`grep "Upper Left" LZ_temp.tmp | gawk {'print $4'} | sed 's/,//'`
+
+#convert GeoTIFF to PNG, so it will be transparent (hopefully)
+#first we have to choose the correct color for transparency (I assume it will be the corner sides color)
+WIDTH=`identify $1 2>/dev/null | gawk {'print $3'} | cut -d 'x' -f1`
+let WIDTH_CENTER=$WIDTH/2
+#BARVA="#"`identify -verbose -crop 1x1+$WIDTH_CENTER+0 $1 | grep Histogram: -A 1 | grep 1: | gawk {'print $2'}`
+#BARVA=`identify -verbose -crop 1x1+$WIDTH_CENTER+0 $1 | grep Histogram: -A 1 | grep 1: | gawk {'print $6'}`
+BARVA=r`identify -verbose -crop 1x1+$WIDTH_CENTER+0 $1 2>/dev/null | grep Histogram: -A 1 | grep 1: | cut -d 'r' -f2`
+convert -transparent ''$BARVA'' $1 $NAME.png 2>/dev/null
+
+#creation of the KML file
+rm $NAME".kml"
+touch $NAME".kml"
+cat << END >> $NAME.kml
+<kml xmlns="http://earth.google.com/kml/2.1">
+        <Document>
+        <name>$MAPNAME</name>
+        <GroundOverlay>
+        <name>$NAME</name>
+        <Icon>
+                <href>$NAME.png</href>
+        </Icon>
+        <LatLonBox>
+                <north>$NORTH</north>
+                <south>$SOUTH</south>
+                <east>$EAST</east>
+                <west>$WEST</west>
+        </LatLonBox>
+        </GroundOverlay>
+        </Document>
+    </kml>
+END
+zip $NAME.kmz $NAME.kml $NAME.png >/dev/null
+echo "Exported to "$NAME".kmz nJoY!"
+rm -f LZ_temp.tmp $NAME.kml $NAME.png

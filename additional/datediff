@@ -1,0 +1,17 @@
+#!/bin/bash
+#echo "Example: datediff 20010520 20050630"
+if [ ! -z $3 ]; then NULA=$3; else NULA=0; fi
+A=${1:0:4}-${1:4:2}-${1:6:2}
+B=${2:0:4}-${2:4:2}-${2:6:2}
+sec=86400
+    dte1=$(date --utc --date "$A" +%s)
+    dte2=$(date --utc --date "$B" +%s)
+    diffSec=$((dte2-dte1))
+    if ((diffSec < 0)); then abs=-1; else abs=1; fi
+    ROZDIL=$((diffSec/sec*abs))
+if [ $NULA -eq 1 ]; then
+if [ $ROZDIL -lt 10 ]; then ROZDIL=0$ROZDIL; fi
+if [ $ROZDIL -lt 100 ]; then ROZDIL=0$ROZDIL; fi
+if [ $ROZDIL -lt 1000 ]; then ROZDIL=0$ROZDIL; fi
+fi
+echo $ROZDIL

@@ -1,0 +1,101 @@
+#!/bin/csh -f
+if ($#argv == 0) then
+    echo "usage: it4s1_stamps_patcher rg_patches az_patches rg_overlap az_overlap"
+    echo "    rg_patches (default 1)   = number of patches in range"
+    echo "    az_patches (default 1)   = number of patches in azimuth"
+    echo "    rg_overlap (default 50)  = overlapping pixels between patches in range"
+    echo "    az_overlap (default 50) = overlapping pixels between patches in azimuth"
+    echo ""
+    exit(4)
+endif
+
+if ($#argv > 0) then
+    set prg = $argv[1]
+else 
+    set prg = 1
+endif
+
+if ($#argv > 1) then
+    set paz = $argv[2]
+else 
+    set paz = 1
+endif
+
+if ($#argv > 2) then
+    set overlap_rg = $argv[3]
+else 
+    set overlap_rg = 50
+endif
+
+if ($#argv > 3) then
+    set overlap_az = $argv[4]
+else 
+    set overlap_az = 50
+endif
+
+set WORKDIR = $cwd
+set dirname = `echo $WORKDIR | gawk 'BEGIN {FS = "/"}{print $(NF)}'`
+
+set width = `cat $WORKDIR/width.txt`
+set length = `cat $WORKDIR/len.txt`
+
+if ($dirname == "SMALL_BASELINES") then
+    set INSARDIR = `echo $WORKDIR | gawk 'BEGIN {FS = "/SMALL_BASELINES"}{print $1}'`
+    echo "Small Baseline Processing"
+    echo " "
+else
+    set INSARDIR = $WORKDIR
+endif
+
+@ width_p = $width / $prg
+echo $width_p
+@ length_p = $length / $paz
+echo $length_p
+set irg = 0
+set iaz = 0
+set ip = 0
+while ($irg < $prg)
+    @ irg = $irg + 1
+    while ($iaz < $paz)
+        @ iaz = $iaz + 1
+        @ ip = $ip + 1
+        @ start_rg1 = $width_p * ($irg - 1) + 1
+        @ start_rg = $start_rg1 - $overlap_rg
+        if ($start_rg < 1) then
+            set start_rg = 1
+        endif
+        @ end_rg1 = $width_p * $irg
+        @ end_rg = $end_rg1 + $overlap_rg
+        if ($end_rg > $width) then
+            @ end_rg = $width
+        endif
+        @ start_az1 = $length_p * ($iaz - 1) + 1
+        @ start_az = $start_az1 - $overlap_az
+        if ($start_az < 1) then
+            set start_az = 1
+        endif
+        @ end_az1 = $length_p * $iaz
+        @ end_az = $end_az1 + $overlap_az
+
+        if ($end_az > $length) then
+            @ end_az = $length
+        endif
+
+        if (! -e PATCH_$ip) then
+            mkdir PATCH_$ip
+        endif
+        cd PATCH_$ip
+        echo $start_rg > patch.in
+        echo $end_rg >> patch.in
+        echo $start_az >> patch.in
+        echo $end_az >> patch.in
+        echo $start_rg1 > patch_noover.in
+        echo $end_rg1 >> patch_noover.in
+        echo $start_az1 >> patch_noover.in
+        echo $end_az1 >> patch_noover.in
+        cd ..
+    end
+    set iaz = 0
+end
+
+\ls -d PATCH_* > patch.list

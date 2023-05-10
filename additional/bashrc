@@ -1,0 +1,26 @@
+#!/bin/bash
+echo "Setting modules and paths"
+module load Python/3.4.3-intel-2015b
+module load Octave/4.2.1-intel-2017a-without-X11 2>/dev/null
+module load HDF5/1.8.18-intel-2017a-serial
+module load Doris/5.0beta-foss-2017a 2>/dev/null
+module load parallel
+module load GDAL/2.1.0-GNU-5.1.0-2.25 2>/dev/null
+module load MATLAB/2015a-EDU
+alias python=/usr/bin/python2
+source /scratch/work/project/open-11-37/sw/it4s1_variables
+
+#module load GCC/6.3.0-2.27 2>/dev/null
+#module load binutils/2.27-GCCcore-6.3.0 2>/dev/null
+#module load Python/3.4.3-intel-2015b 2>/dev/null
+##module add FFTW/3.3.4-intel-2015b
+#module load FFTW/3.3.6-gompi-2017a 2>/dev/null
+#module load HDF5/1.8.16-intel-2015b 2>/dev/null
+#module load Octave/3.8.2-intel-2015b
+#module load Doris/5.0beta-foss-2017a
+#module load parallel
+#module load MATLAB/2015a-EDU
+##module load GDAL/2.1.0-GNU-5.1.0-2.25
+#module load GDAL/2.1.0-intel-2015b
+#alias python=/usr/bin/python2
+#source /scratch/work/project/open-11-37/sw/it4s1_variables

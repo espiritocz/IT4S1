@@ -1,0 +1,8 @@
+export OCTAVEPKG=/scratch/work/project/dd-18-9/it4s1/sw/octave
+export MATLABDIR=/scratch/work/project/dd-18-9/it4s1/sw/matlab
+export STAMPSMATLABDIR=/scratch/work/project/dd-18-9/it4s1/sw/matlab/stamps
+export TRAINMATLABDIR=/scratch/work/project/dd-18-9/it4s1/sw/matlab/train
+export IT4S1STORAGE=/scratch/work/project/dd-18-9/it4s1/BASE/CZ
+export PYTHONPATH=$PYTHONPATH:/scratch/work/project/dd-18-9/it4s1/sw/python
+export PATH=$PATH:/scratch/work/project/dd-18-9/it4s1/sw/bin/isce:/scratch/work/project/dd-18-9/it4s1/sw/bin/stamps:/scratch/work/project/dd-18-9/it4s1/sw/it4s1_prod:/scratch/work/project/dd-18-9/it4s1/sw/it4s1_prod/proc:/scratch/work/project/dd-18-9/it4s1/sw/it4s1_prod/additional
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/scratch/work/project/dd-18-9/it4s1/sw/lib

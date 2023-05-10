@@ -1,0 +1,18 @@
+export PATH=$PATH:~/laz048/bin
+export PATH=~/sw/condaenv_37:$PATH
+export ISCE_INSTALL_ROOT=~/sw/isce.2019
+export PYTHONPATH=$ISCE_INSTALL_ROOT:$PYTHONPATH
+export ISCE_HOME=$ISCE_INSTALL_ROOT
+export PATH=$ISCE_HOME/applications:$PATH
+
+basedir=/storage/brno2/home/laz048/sw/condaenv_37
+PATH=$PATH:${basedir}/bin
+CPATH=$CPATH:${basedir}/include
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${basedir}/lib
+LIBRARY_PATH=$LIBRARY_PATH:${basedir}/lib
+PKG_CONFIG_PATH=$PKG_CONFIG_PATH:${basedir}/lib/pkgconfig
+CONDA_PREFIX=${basedir}
+_CONDA_EXE=${basedir}/bin/conda
+_CONDA_ROOT=${basedir}
+
+source activate /storage/brno2/home/laz048/sw/condaenv_37

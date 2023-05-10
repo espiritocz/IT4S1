@@ -1,0 +1,19 @@
+#!/bin/bash
+#this should be in a .bashrc perhaps..
+module add Python/3.4.3-intel-2015b
+#module add FFTW/3.3.4-intel-2015b
+module add Octave/3.8.2-intel-2015b
+module add Doris/5.0beta-foss-2017a
+module add parallel
+module add MATLAB/2015a-EDU
+module add GDAL/2.1.0-GNU-5.1.0-2.25 
+
+alias python=/usr/bin/python2
+
+
+export MATLABDIR=/scratch/work/project/open-11-37/sw/matlab
+export STAMPSMATLABDIR=/scratch/work/project/open-11-37/sw/matlab/stamps
+export TRAINMATLABDIR=/scratch/work/project/open-11-37/sw/matlab/train
+export IT4S1STORAGE=/scratch/work/project/open-11-37/BASE/CZ
+export PYTHONPATH=$PYTHONPATH:/scratch/work/project/open-11-37/sw/python
+export PATH=$PATH:/scratch/work/project/open-11-37/sw/isce:/scratch/work/project/open-11-37/sw/it4s1_prod:/scratch/work/project/open-11-37/sw/it4s1_prod/proc:/scratch/work/project/open-11-37/sw/it4s1_prod/additional

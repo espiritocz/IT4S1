@@ -1,0 +1,4 @@
+export SENT_MYSQL_DB=
+export SENT_MYSQL_S1DB=
+export SENT_MYSQL_USER=
+export SENT_MYSQL_PASS=
